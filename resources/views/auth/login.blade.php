@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="Contraseña" required autocomplete="current-password">
+          <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
