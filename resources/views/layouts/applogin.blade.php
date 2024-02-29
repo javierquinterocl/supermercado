@@ -29,7 +29,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('css')
 </head>
-<body class="hold-transition  ">
+<body class="hold-transition register-page ">
     @yield('content')
 
     
