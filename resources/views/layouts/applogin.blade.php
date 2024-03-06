@@ -19,7 +19,7 @@
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="{{asset('backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('backend/dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{asset('backend/dist/css/adminlte.css')}}">
 
 
    

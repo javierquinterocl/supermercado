@@ -32146,7 +32146,9 @@ html.maximized-card {
 .dark-mode .btn-primary:not(:disabled):not(.disabled):active, .dark-mode .btn-primary:not(:disabled):not(.disabled).active,
 .show > .dark-mode .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #304e6d;
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  ;
   border-color: #2c4765;
 }
 
@@ -34973,7 +34975,9 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 .register-page {
   -ms-flex-align: center;
   align-items: center;
-  background-color: #0074f0;
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+  ;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
