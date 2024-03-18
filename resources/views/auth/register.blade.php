@@ -62,7 +62,7 @@
        
       </div>
 
-      <a href="login.html" class="text-center">Ya tengo cuenta</a>
+      <a href="login" class="text-center">Ya tengo cuenta</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
