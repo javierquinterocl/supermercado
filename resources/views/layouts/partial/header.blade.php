@@ -12,7 +12,7 @@
       <div class="user-panel d-flex">
         <div class="image">
             
-        <a href="#" class=""> {{ Auth::user()->email }}
+        
 
         
         <a  href="{{ route('logout') }}"
