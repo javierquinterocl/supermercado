@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name');
+            $table->string('image');
+            $table->decimal('price',8,2);
+            $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('provider_id');
+            $table->foreign('provider_id')
+           ->references('id')
+           ->on('proveedores');
         });
     }
 
