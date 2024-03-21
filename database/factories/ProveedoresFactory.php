@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Producto>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Proveedores>
  */
-class ProductoFactory extends Factory
+class ProveedoresFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +18,8 @@ class ProductoFactory extends Factory
     {
         return [
             'name' => $this->faker->word, 
-            'provider_id' =>\App\Models\Proveedores::factory(),
-            'total_amount' => $this->faker->randomNumber(2),
-            'price' => $this->faker->randomFloat(2, 0, 1000), 
+            'adress' =>$this->faker->address,
+            'number' =>$this->faker->randomNumber(2)
         ];
     }
 }

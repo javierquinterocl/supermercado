@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
+    public $timestamps =false;
 
-    protected $fillable = ['name', 'image', 'price', 'total_amount'];
-    protected $guarded = ['id','created_at', 'updated_at'];
+    protected $fillable = ['name', 'price', 'total_amount','provider_id'];
+    protected $guarded = ['id'];
 
     public function orders()
  {
- return $this->hasMany(Order::class);
+ return $this->hasMany(Detalles::class);
  }
 
 }

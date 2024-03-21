@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
+           
             $table->string('adress');
-            $table->integer('number');
-            $table->timestamps();
+            $table->string('number');
+            
 
           
         });
