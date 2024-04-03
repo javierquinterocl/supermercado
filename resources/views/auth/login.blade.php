@@ -9,7 +9,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+      <img src="../public/backend/dist/img/logo.png"  style= "width:300px; height: 200px" alt="">
     </div>
     <div class="card-body">
       <p class="login-box-msg">Iniciar Sesion</p>
@@ -17,7 +17,7 @@
       <form action="{{route('login')}}" method="POST">
         @csrf
         <div class="input-group mb-3">
-          <input type="email" class="form-control @error('email') is-invalid @enderror"  name="email" id="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+          <input type="email" class="form-control @error('email') is-invalid @enderror"  name="email" id="email" placeholder="Correo Electronico" value="{{ old('email') }}" required autocomplete="email" autofocus>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
+          <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" name="password" required autocomplete="current-password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -54,7 +54,7 @@
       </div>
       <!-- /.social-auth-links -->
 
-      <p class="mb-1">
+      <p class="mb-1 ml-4">
       @if (Route::has('password.request'))
         <a href="{{ route('password.request') }}">Olvide mi contraseña</a>
       @endif

@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+
+*{
+    font-family: "Oswald", sans-serif;   
+}
+nav {
+    background-color: #333;
+    padding: 20px;
+    text-align: right;
+    justify-content: space-between;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+/* Estilos para la sección principal */
+.l-main {
+    text-align: center;
+   
+    
+}
+
+.l-main h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.l-main span {
+    color: #ff9900; /* Cambia el color del span si lo deseas */
+}
+
+.product-menu {
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    margin-top: 30px;
+    background-color: #ff9900;
+    height: 600px;
+    width: 1000px;
+    margin: auto;
+    border-radius: 15px;
+    margin-bottom: 100px;
+    padding: 35px;
+}
+
+.product-menu-item {
+    margin: 0 10px;
+}
+
+.product-menu-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    transition: transform 0.3s ease;
+}
+
+.product-menu-item img:hover {
+    transform: scale(1.1);
+}
+
+
+.auth-buttons {
+    margin-top: 10px;
+}
+
+ a {
+    background-color: fff;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+    border: 1px solid #ff9900;
+    transition: background-color 0.3s ease;
+    padding: 7px;
+    margin: 5px;
+}
+
+ a:hover {
+    background-color: #555;
+}
+
+img{
+    width: 1000px;
+    height: 500px;
+}
+
