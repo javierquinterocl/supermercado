@@ -17,10 +17,9 @@ class ProductoFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word, 
-            'provider_id' =>\App\Models\Proveedores::factory(),
-            'total_amount' => $this->faker->randomNumber(2),
-            'price' => $this->faker->randomFloat(2, 0, 1000), 
+            'name'=>$this->faker->colorName,
+            'price'=>$this->faker->randomFloat(2,0,1000),
+            'provider_id'=>\App\Models\Provider::factory(),
         ];
     }
 }
