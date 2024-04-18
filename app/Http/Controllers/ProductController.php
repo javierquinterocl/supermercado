@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 class ProductController extends Controller
@@ -34,34 +35,34 @@ class ProductController extends Controller
     {
         //
     
-		
-
+        $product=Product::create($request->all());
         $image = $request->file('image');
-			$slug = Str::slug($request->name);
-			if (isset($image))
-			{
-				$currentDate = Carbon::now()->toDateString();
-				$imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
+        $slug = str::slug($request->nombre);
+        if (isset($image))
+        {
+            $currentDate = Carbon::now()->toDateString();
+            $imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
 
-				if (!file_exists('uploads/products'))
-				{
-					mkdir('uploads/products)',0777,true);
-				}
-				$image->move('uploads/products)',$imagename);
-			}else{
-				$imagename = "";
-			}
-            
+            if (!file_exists('uploads/products'))
+            {
+                mkdir('uploads/products',0777,true);
+            }
+            $image->move('uploads/products',$imagename);
+        }else{
+            $imagename = "";
+        }
 
-            $product = new Product();
-			
-			$product->name = $request->name;
-			$product->price = $request->price;
-			$product->description = $request->description;
-            $product->image = $imagename;
+        $products = new Product();
+			$products->id = $request->id;
+			$products->name = $request->name;
+			$products->description = $request->description;
+			$products->amount = $request->amount;
+			$products->price = $request->price;
+            $products->status = $request->status;
+            $products->image = $imagename;
 			$product->save();
+            return redirect()->route('products.index')->with('successMsg','El registro se guardó exitosamente');
 
-            return redirect()->route('products.index');
     }
 
     /**
