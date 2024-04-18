@@ -9,6 +9,7 @@
 		<div class="container-fluid">
 		</div>
     </section>
+	@include('layouts.partial.msg')
 	<section class="content">
 		<div class="container-fluid">
 			<div class="row">

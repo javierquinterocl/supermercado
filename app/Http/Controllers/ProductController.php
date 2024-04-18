@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Http\Requests\ProductRequest;
 class ProductController extends Controller
 {
     //
@@ -31,13 +32,12 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         //
     
-        $product=Product::create($request->all());
         $image = $request->file('image');
-        $slug = str::slug($request->nombre);
+        $slug = Str::slug($request->name);
         if (isset($image))
         {
             $currentDate = Carbon::now()->toDateString();
@@ -52,16 +52,15 @@ class ProductController extends Controller
             $imagename = "";
         }
 
-        $products = new Product();
-			$products->id = $request->id;
-			$products->name = $request->name;
-			$products->description = $request->description;
-			$products->amount = $request->amount;
-			$products->price = $request->price;
-            $products->status = $request->status;
-            $products->image = $imagename;
-			$product->save();
-            return redirect()->route('products.index')->with('successMsg','El registro se guardó exitosamente');
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->amount = $request->amount;
+        $product->image = $imagename;
+        $product->save();
+
+        return redirect()->route('products.index')->with('successMsg','El registro se guardó exitosamente');
 
     }
 

@@ -20,6 +20,7 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
+    @include('layouts.partial.msg')
 
     <!-- Main content -->
     <section class="content">
