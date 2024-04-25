@@ -58,6 +58,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->amount = $request->amount;
         $product->image = $imagename;
+        $product->status = 1;
+        $product->registerby = $request->user()->id;
         $product->save();
 
         return redirect()->route('products.index')->with('successMsg','El registro se guardó exitosamente');
@@ -85,14 +87,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
         //
+        $product->delete();
+        return redirect()->route('products.index')->with('sucess','Producto eliminado correctacmente');
+        
+
+    }
+
+    public function changeproducturl(Request $request){
+        $product = Product::find($request->product_id);
+        $product->status = $request->status;
+        $product->save();
     }
 }

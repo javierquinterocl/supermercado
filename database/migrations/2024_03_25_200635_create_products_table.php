@@ -19,6 +19,8 @@ return new class extends Migration
             $table->double('amount');
             $table->double('price',8,2);
             $table->string('image')->nullable();
+            $table->string('status')->nullable();
+            $table->string('registerby')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             
