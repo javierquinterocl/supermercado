@@ -77,17 +77,47 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
         //
+        $product = Product::find($id);
+        
+        return view("products.edit", compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request,$id)
     {
-        
+        $product = Product::find($id);
+			$image = $request->file('image');
+			$slug = str::slug($request->name);
+			if (isset($image))
+			{
+				$currentDate = Carbon::now()->toDateString();
+				$imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
+
+				if (!file_exists('uploads/products'))
+				{
+					mkdir('uploads/products',0777,true);
+				}
+				$image->move('uploads/products',$imagename);
+			}else{
+				$imagename = $product->image;
+			}
+			
+
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->amount = $request->amount;
+            $product->image = $imagename;
+            $product->status = 1;
+            $product->registerby = $request->user()->id;
+            $product->save();
+    
+            return redirect()->route('products.index')->with('successMsg','El registro se guardó exitosamente');
     }
 
     /**

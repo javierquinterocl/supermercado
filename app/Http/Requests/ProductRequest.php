@@ -21,16 +21,43 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        
+            if(request()->isMethod('post')){
+                return [
+                    
+                    'name' => 'required|string|max:255|unique:products,name',
+                    'description' => 'nullable',
+                    'amount' => 'required|numeric',
+                    'price' => 'required|min:0',
+                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
+                    
+                ];	
+            } else if(request()->isMethod('put')){
+                return [
+                    
+                    'name' => 'required|string|max:255',
+                    'description' => 'nullable',
+                    'amount' => 'required|numeric',
+                    'price' => 'required|min:0',
+                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
+                ];
+            }else{
 
-            //
-            'name' => 'required|string|max:255',
-            'description' => 'nullable',
-            'amount' => 'required|numeric',
-            'price' => 'required|min:0',
-            'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
+                return[
+                    'name' => 'required|string|max:255',
+                    'description' => 'nullable',
+                    'amount' => 'required|numeric',
+                    'price' => 'required|min:0',
+                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
+                ];
+            }
+           
+            
 
-        ];
+
+       
+
+        
     }
     public function attributes()
     {
