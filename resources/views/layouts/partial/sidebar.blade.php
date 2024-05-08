@@ -64,7 +64,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="{{ route('clients.index') }}" class="nav-link">
                 <i class="fa-solid fa-user nav-icon"></i>
                   <p>Cliente</p>
                 </a>
