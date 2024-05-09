@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Tabla de clientes</h3>
-                                <a href="{{ route('products.create') }}" class="btn btn-primary float-right"
+                                <a href="{{ route('clients.create') }}" class="btn btn-primary float-right"
                                     title="Nuevo"><i class="fas fa-plus nav-icon"></i></a>
                             </div>
                             <!-- /.card-header -->
@@ -40,46 +40,49 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Amount</th>
-                                            <th>Price</th>
+                                            <th>Document</th>
+                                            <th>Address</th>
+                                            <th>Phone</th>
                                             <th>Imagen</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($products as $product)
+                                        @foreach ($clients as $client)
                                             <tr>
-                                                <td>{{ $product->id }}</td>
-                                                <td>{{ $product->name }}</td>
-                                                <td>{{ $product->description }}</td>
-                                                <td>{{ $product->amount }}</td>
-                                                <td>{{ $product->price }}</td>
+                                                <td>{{ $client->id }}</td>
+                                                <td>{{ $client->name }}</td>
+                                                <td>{{ $client->document }}</td>
+                                                <td>{{ $client->address }}</td>
+                                                
+                                                <td>{{ $client->phone }}</td>
+                                                
+
 
                                                 <td>
-                                                    @if ($product->image != null)
+                                                    @if ($client->image != null)
                                                         <p><img class="img-responsive img-thumbnail"
-                                                                src="{{ asset('uploads/products/' . $product->image) }}"
+                                                                src="{{ asset('uploads/clients/' . $client->image) }}"
                                                                 style="height: 70px; width: 70px;" alt=""></p>
-                                                    @elseif ($product->image == null)
+                                                    @elseif ($client->image == null)
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <input data-id="{{ $product->id }}" class="toggle-class"
+                                                    <input data-id="{{ $client->id }}" class="toggle-class"
                                                         type="checkbox" data-onstyle="success" data-offstyle="danger"
                                                         data-toggle="toggle" data-on="Activo" data-off="Inactivo"
-                                                        {{ $product->status ? 'checked' : '' }}>
+                                                        {{ $client->status ? 'checked' : '' }}>
                                                 </td>
 
                                                 <td>
 
 
                                                     <a class="btn btn-info btn-sm"
-                                                        href="{{ route('products.edit', $product->id) }}" title="Edit"><i
+                                                        href="{{ route('clients.edit', $client->id) }}" title="Edit"><i
                                                             class="fas fa-pencil-alt"></i></a>
 
                                                     <form class="d-inline delete-form"
-                                                        action="{{ route('products.destroy', $product) }}" method="POST">
+                                                        action="{{ route('clients.destroy', $client) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class=" btn btn-danger btn-sm"
@@ -105,14 +108,14 @@
                             $(function() {
                                 $('.toggle-class').change(function() {
                                     var estado = $(this).prop('checked') == true ? 1 : 0;
-                                    var product_id = $(this).data('id');
+                                    var client_id = $(this).data('id');
                                     $.ajax({
                                         type: "GET",
                                         dataType: "json",
                                         url: 'changeproducturl',
                                         data: {
                                             'status': estado,
-                                            'product_id': product_id
+                                            'client_id': client_id
                                         },
                                         success: function(data) {
                                             console.log(data.success)

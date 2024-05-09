@@ -57,7 +57,7 @@ class ClientController extends Controller
         $client = new Client();
         $client->name = $request->name;
         $client->document = $request->document;
-        $client->mail = $request->mail;
+        $client->email = $request->email;
         $client->address = $request->address;
         $client->phone = $request->phone;
         $client->image = $imagename;
@@ -83,7 +83,7 @@ class ClientController extends Controller
     public function edit( $id)
     {
         //
-        $product = Client::find($id);
+        $client = Client::find($id);
         
         return view("clients.edit", compact('client'));
     }
@@ -111,10 +111,10 @@ class ClientController extends Controller
 			}
 			
 
-            $client = new Client();
+           
             $client->name = $request->name;
             $client->document = $request->document;
-            $client->mail = $request->mail;
+            $client->email = $request->email;
             $client->address = $request->address;
             $client->phone = $request->phone;
             $client->image = $imagename;

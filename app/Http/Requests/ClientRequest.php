@@ -11,7 +11,7 @@ class ClientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,11 +24,11 @@ class ClientRequest extends FormRequest
         if(request()->isMethod('post')){
             return [
                 
-                'name' => 'required|string|max:255|unique:products,name',
-                'mail' => 'nullable',
+                'name' => 'required|string|max:255|unique:clients,name',
                 'document' => 'nullable',
-                'address' => 'required',
-                'phone' => 'required|min:0',
+                'email' => 'nullable',
+                'phone' => 'nullable',
+                'address' => 'nullable',
                 'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
                 
             ];	
@@ -36,20 +36,20 @@ class ClientRequest extends FormRequest
             return [
                 
                 'name' => 'required|string|max:255',
-                'mail' => 'nullable',
                 'document' => 'nullable',
-                'address' => 'required',
-                'phone' => 'required|min:0',
+                'email' => 'nullable',
+                'phone' => 'nullable',
+                'address' => 'nullable',
                 'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
             ];
         }else{
 
             return[
                 'name' => 'required|string|max:255',
-                'mail' => 'nullable|max:255',
                 'document' => 'nullable',
-                'address' => 'required',
-                'phone' => 'required|min:0',
+                'email' => 'nullable',
+                'phone' => 'nullable',
+                'address' => 'nullable',
                 'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
             ];
         }
@@ -64,4 +64,5 @@ class ClientRequest extends FormRequest
 			
         ];
     }
+    
 }

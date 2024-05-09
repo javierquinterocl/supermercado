@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->string('email');
+            $table->string('status')->nullable();
+            $table->string('registerby')->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
             
 
         });
