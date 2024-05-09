@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -12,7 +13,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        
+        $orders = Order::select('clients.name', 'clients.document', 'orders.order_detail', 'orders.total')
+            ->join('clients', 'orders.client_id', '=', 'clients.id')
+            ->get();
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -20,7 +24,19 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+       
+        $order = new Order();
+      
+        $orderDetail = new OrderDetail();
+        $idOrder = $order ->id;
+        $cont = 0;
+
+        while ($cont < count($request->item)) {
+            # code...
+        }
+        $order ->client_id = $request ->client_id;
+        $order->save();
+       
     }
 
     /**
@@ -29,6 +45,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //
+        $orders = Order::where('status','=','1') ->orderBy ('name')->get();
+        return view('orders.create',compact('orders'));
     }
 
     /**

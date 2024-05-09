@@ -21,8 +21,21 @@ class OrdenRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        
             //
-        ];
+
+            if(request()->isMethod('post')){
+                return [
+                    
+                    'date_order' => 'required|date',
+                    'total_amount' => 'required|numeric',
+                    'route' => 'required|string',
+                    'status' => 'required|string',
+                    'registerby' => 'required|string',
+                    'client_id' => 'required|integer',
+                    
+                ];	
+            }
+        
     }
 }

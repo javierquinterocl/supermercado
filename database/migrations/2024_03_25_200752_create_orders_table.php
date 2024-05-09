@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,16 +12,23 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            
-            $table->decimal('total_amount', 10, 2);
+
             $table->dateTime('date_order');
+            $table->decimal('total');
+            $table->string('route');
 
-
+            $table->string('registered_by')->nullable();
+            $table->string('status')->nullable();
 
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')
-           ->references('id')
-           ->on('clients');
+                ->references('id')
+                ->on('clients');
+
+            $table->unsignedBigInteger('order_detail');
+            $table->foreign('order_detail')
+                ->references('id')
+                ->on('order_details');
         });
     }
 
