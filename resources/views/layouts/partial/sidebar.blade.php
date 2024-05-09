@@ -70,9 +70,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
+                <a href="{{ route('orders.index') }}" class="nav-link">
                 <i class="fa-solid fa-file-circle-check nav-icon"></i>
-                  <p>Venta/Factura</p>
+                  <p>Order</p>
                 </a>
               </li>
              
