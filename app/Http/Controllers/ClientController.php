@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+
 use Illuminate\Http\Request;
 
 use App\Models\Client;
-use Illuminate\Support;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Http\Requests\ClientRequest;
 
 class ClientController extends Controller
 {
-    //
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $clients = CLient::all();
+        $clients = Client::all();
         return view("clients.index", compact("clients"));
     }
 
@@ -27,46 +25,42 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
         return view("clients.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ClientRequest $request)
+    public function store(Request $request)
     {
-        //
-    
-        $image = $request->file('image');
-        $slug = Str::slug($request->name);
-        if (isset($image))
-        {
-            $currentDate = Carbon::now()->toDateString();
-            $imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
+        $image = $request->file('photo');
+        $slug = str::slug($request->name);
 
-            if (!file_exists('uploads/clients'))
-            {
-                mkdir('uploads/clients',0777,true);
+        if (isset($image)) {
+            $currentDate = Carbon::now()->toDateString();
+            $photoName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            if (!file_exists('uploads/clients')) {
+                mkdir('uploads/clients', 0777, true);
             }
-            $image->move('uploads/clients',$imagename);
-        }else{
-            $imagename = "";
+            $image->move('uploads/clients', $photoName);
+        } else {
+            $photoName = "";
         }
 
-        $client = new Client();
-        $client->name = $request->name;
-        $client->document = $request->document;
-        $client->email = $request->email;
-        $client->address = $request->address;
-        $client->phone = $request->phone;
-        $client->image = $imagename;
-        $client->status = 1;
-        $client->registerby = $request->user()->id;
-        $client->save();
+        $product = new Client();
+        $product->name = $request->name;
+        $product->document = $request->document;
+        $product->photo = $photoName;
+        $product->address = $request->address;
+        $product->city = $request->city;
+        $product->phone = $request->phone;
+        $product->email = $request->email;
+        $product->status = 1;
+        $product->registered_by = $request->user()->id;
+        $product->save();
 
-        return redirect()->route('clients.index')->with('successMsg','El registro se guardó exitosamente');
-
+        return redirect()->route("clients.index")->with("success", "Client successfully added.");
     }
 
     /**
@@ -80,49 +74,46 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( $id)
+    public function edit(string $id)
     {
-        //
         $client = Client::find($id);
-        
-        return view("clients.edit", compact('client'));
+        return view("clients.edit", compact("client"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClientRequest $request,$id)
+    public function update(Request $request, string $id)
     {
         $client = Client::find($id);
-			$image = $request->file('image');
-			$slug = str::slug($request->name);
-			if (isset($image))
-			{
-				$currentDate = Carbon::now()->toDateString();
-				$imagename = $slug.'-'.$currentDate.'-'. uniqid() .'.'. $image->getClientOriginalExtension();
 
-				if (!file_exists('uploads/clients'))
-				{
-					mkdir('uploads/clients',0777,true);
-				}
-				$image->move('uploads/clients',$imagename);
-			}else{
-				$imagename = $client->image;
-			}
-			
+        $image = $request->file('photo');
+        $slug = str::slug($request->name);
 
-           
-            $client->name = $request->name;
-            $client->document = $request->document;
-            $client->email = $request->email;
-            $client->address = $request->address;
-            $client->phone = $request->phone;
-            $client->image = $imagename;
-            $client->status = 1;
-            $client->registerby = $request->user()->id;
-            $client->save();
-    
-            return redirect()->route('clients.index')->with('successMsg','El registro se guardó exitosamente');
+        if (isset($image)) {
+            $currentDate = Carbon::now()->toDateString();
+            $photoName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            if (!file_exists('uploads/clients')) {
+                mkdir('uploads/clients', 0777, true);
+            }
+            $image->move('uploads/clients', $photoName);
+        } else {
+            $photoName = "";
+        }
+
+        $client->name = $request->name;
+        $client->document = $request->document;
+        $client->photo = $photoName;
+        $client->address = $request->address;
+        $client->city = $request->city;
+        $client->phone = $request->phone;
+        $client->email = $request->email;
+        $client->status = 1;
+        $client->registered_by = $request->user()->id;
+        $client->save();
+
+        return redirect()->route("clients.index")->with("success", "Client successfully edited.");
     }
 
     /**
@@ -130,15 +121,14 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
         $client->delete();
-        return redirect()->route('clients.index')->with('sucess','Producto eliminado correctacmente');
-        
-
+        return redirect()->route("clients.index")->with("success", "The client has been deleted.");
     }
-    public function changeclienturl(Request $request){
-        $client = Client::find($request->client_id);
-        $client->status = $request->status;
-        $client->save();
+
+    public function changeclienturl(Request $request)
+    {
+        $product = Client::find($request->client_id);
+        $product->status = $request->status;
+        $product->save();
     }
 }

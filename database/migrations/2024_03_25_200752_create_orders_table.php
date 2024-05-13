@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-
+            
             $table->dateTime('date_order');
             $table->decimal('total');
             $table->string('route');
@@ -24,11 +24,6 @@ return new class extends Migration {
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients');
-
-            $table->unsignedBigInteger('order_detail');
-            $table->foreign('order_detail')
-                ->references('id')
-                ->on('order_details');
         });
     }
 

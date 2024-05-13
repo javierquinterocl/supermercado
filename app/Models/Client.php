@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'document', 'address', 'phone','email','image','status','registerby'];
-    protected $guarded = ['id','created_at', 'updated_at','status','registerby'];
+    public $timestamps = false;
+
+    protected $fillable = [
+        'name',
+        'document',
+        'photo',
+        'address',
+        'city',
+        'phone',
+        'email',
+        'status',
+        'registered_by',
+    ];
+
+    protected $guarded = ['id'];
 }

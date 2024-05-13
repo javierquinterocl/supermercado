@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Client;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    //
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $orders = Order::select('clients.name', 'clients.document', 'orders.order_detail', 'orders.total')
+        $orders = Order::select('clients.name', 'clients.document', 'orders.id', 'orders.total', 'orders.date_order')
             ->join('clients', 'orders.client_id', '=', 'clients.id')
             ->get();
+
+
         return view('orders.index', compact('orders'));
     }
 
@@ -24,19 +29,9 @@ class OrderController extends Controller
      */
     public function create()
     {
-       
-        $order = new Order();
-      
-        $orderDetail = new OrderDetail();
-        $idOrder = $order ->id;
-        $cont = 0;
-
-        while ($cont < count($request->item)) {
-            # code...
-        }
-        $order ->client_id = $request ->client_id;
-        $order->save();
-       
+        $clients = Client::all();
+        $products = Product::all();
+        return view('orders.create', compact('clients', "products"));
     }
 
     /**
@@ -44,9 +39,38 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $orders = Order::where('status','=','1') ->orderBy ('name')->get();
-        return view('orders.create',compact('orders'));
+        $order = Order::create([
+            'date_order' => Carbon::now()->toDateTimeString(),
+            'total' => 0,
+            'route' => "Por hacer",
+            'client_id' => Client::find($request->client)->id,
+        ]);
+
+        $order->status = 1;
+        $order->registered_by = $request->registered_by;
+
+        $total = 0;
+
+        $rawProductId = $request->product_id;
+        $rawQuantity = $request->quantity;
+        for ($i = 0; $i < count($rawProductId); $i++) {
+            $product = Product::find($rawProductId[$i]);
+            $quantity = $rawQuantity[$i];
+            $subtotal = ($product->price) * $quantity;
+
+            $order->order_details()->create([
+                'quantity' => $quantity,
+                'subtotal' => $subtotal,
+                'product_id' => $product->id,
+            ]);
+
+            $total += $subtotal;
+        }
+
+        $order->total = $total;
+        $order->save();
+
+        return redirect()->route("orders.index")->with("success", "The orders has been created.");
     }
 
     /**
@@ -54,7 +78,12 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Order::find($id);
+        $details = OrderDetail::select('order_details.product_id', 'order_details.quantity', 'order_details.subtotal')
+            ->where('order_details.order_id', '=', $id)
+            ->get();
+
+        return view("orders.show", compact("order", "details"));
     }
 
     /**
@@ -76,8 +105,9 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return redirect()->route("orders.index")->with("success", "The order has been deleted.");
     }
 }

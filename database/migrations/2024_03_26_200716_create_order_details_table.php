@@ -15,12 +15,19 @@ return new class extends Migration {
 
             $table->integer('quantity');
             $table->integer('subtotal');
-            $table->string('registered_by')->nullable();
+            $table->string('registerby')->nullable();
 
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders')
+                ->cascadeOnDelete();
+        
         });
     }
 

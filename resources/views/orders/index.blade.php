@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'List of orders')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -8,19 +8,12 @@
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>orderos</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">orderos</li>
-                        </ol>
-                    </div>
+
+                    @include('layouts.partial.msg')
+
                 </div>
             </div><!-- /.container-fluid -->
         </section>
-        @include('layouts.partial.msg')
 
         <!-- Main content -->
         <section class="content">
@@ -29,21 +22,23 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Tabla de orderos</h3>
-                                <a href="{{ route('orders.create') }}" class="btn btn-primary float-right"
-                                    title="Nuevo"><i class="fas fa-plus nav-icon"></i></a>
+                                <h3 class="card-title text-lg">@yield('title')</h3>
+
+                                <a href="{{ route('orders.create') }}" class="btn btn-primary float-right"><i
+                                        class="fas fa-plus nav-icon"></i></a>
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example2" class="table table-bordered table-hover">
-                                    <thead>
+                                <table id="example1" class="table table-bordered table-hover">
+                                    <thead class="text-primary">
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name Client</th>
-                                            <th>Document</th>
+                                            <th>Client Name</th>
+                                            <th>Client Document</th>
                                             <th>Date</th>
                                             <th>Total</th>
-    
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -51,12 +46,11 @@
                                         @foreach ($orders as $order)
                                             <tr>
                                                 <td>{{ $order->id }}</td>
-                                                <td>{{ $order->client->name }}</td>
-                                                <td>{{ $order->client->document }}</td>
+                                                <td>{{ $order->name }}</td>
+                                                <td>{{ $order->document }}</td>
                                                 <td>{{ $order->date_order }}</td>
-                                                <td>{{ $order->total_amount }}</td>
+                                                <td>{{ $order->total }}</td>
 
-                                               
                                                 <td>
                                                     <input data-id="{{ $order->id }}" class="toggle-class"
                                                         type="checkbox" data-onstyle="success" data-offstyle="danger"
@@ -65,12 +59,6 @@
                                                 </td>
 
                                                 <td>
-
-
-                                                    <a class="btn btn-info btn-sm"
-                                                        href="{{ route('orders.edit', $order->id) }}" title="Edit"><i
-                                                            class="fas fa-pencil-alt"></i></a>
-
                                                     <form class="d-inline delete-form"
                                                         action="{{ route('orders.destroy', $order) }}" method="POST">
                                                         @csrf
@@ -80,67 +68,124 @@
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </form>
+                                                    <a href="{{ route('orders.show', $order) }}"
+                                                        class="btn btn-primary btn-sm" title="View bill">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
                                                 </td>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- /.card-body -->
                         </div>
-                    @endsection
-
-                    @push('scripts')
+                        <!-- /.card -->
 
 
-                        <script>
-                            $(document).ready(function() {
-                                $("example2").DataTable()
-                            });
-                            $(function() {
-                                $('.toggle-class').change(function() {
-                                    var estado = $(this).prop('checked') == true ? 1 : 0;
-                                    var order_id = $(this).data('id');
-                                    $.ajax({
-                                        type: "GET",
-                                        dataType: "json",
-                                        url: 'changeorderurl',
-                                        data: {
-                                            'status': estado,
-                                            'order_id': order_id
-                                        },
-                                        success: function(data) {
-                                            console.log(data.success)
-                                        }
-                                    });
-                                })
-                            })
-                        </script>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    </div>
+@endsection
+@push('scripts')
+    <script type="text/javascript">
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                //"buttons": ["excel", "pdf", "print", "colvis"],
+                "language": {
+                    "sLengthMenu": "Mostrar MENU entradas",
+                    "sEmptyTable": "No hay datos disponibles en la tabla",
+                    "sInfo": "Mostrando START a END de TOTAL entradas",
+                    "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "sSearch": "Buscar:",
+                    "sZeroRecords": "No se encontraron registros coincidentes en la tabla",
+                    "sInfoFiltered": "(Filtrado de MAX entradas totales)",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sPrevious": "Anterior",
+                        "sNext": "Siguiente",
+                        "sLast": "Ultimo"
+                    },
+                    /*"buttons": {
+                    	"print": "Imprimir",
+                    	"colvis": "Visibilidad Columnas"
+                    	/*"create": "Nuevo",
+                    	"edit": "Cambiar",
+                    	"remove": "Borrar",
+                    	"copy": "Copiar",
+                    	"csv": "fichero CSV",
+                    	"excel": "tabla Excel",
+                    	"pdf": "documento PDF",
+                    	"collection": "Colección",
+                    	"upload": "Seleccione fichero...."
+                    }*/
+                }
+            }); //.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
-                        <script>
-                            $('.delete-form').submit(function(e) {
-                                e.preventDefault();
-                                Swal.fire({
-                                    title: 'Estas seguro?',
-                                    text: "Este registro se eliminara definitivamente",
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Aceptar',
-                                    cancelButtonText: 'Cancelar'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        this.submit();
-                                    }
-                                })
-                            });
-                        </script>
-                        @if (session('eliminar') == 'ok')
-                            <script>
-                                Swal.fire(
-                                    'Eliminado',
-                                    'El registro ha sido eliminado exitosamente',
-                                    'success'
-                                )
-                            </script>
-                        @endif
-                    @endpush
+    <script>
+        $(document).ready(function() {
+            $("example1").DataTable()
+        });
+        $(function() {
+            $('.toggle-class').change(function() {
+                var estado = $(this).prop('checked') == true ? 1 : 0;
+                var arl_id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: 'changeorderurl',
+                    data: {
+                        'status': estado,
+                        'order_id': arl_id
+                    },
+                    success: function(data) {
+                        console.log(data.success)
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        $('.delete-form').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Estas seguro?',
+                text: "Este registro se eliminara definitivamente",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+        });
+    </script>
+
+    @if (session('eliminar') == 'ok')
+        <script>
+            Swal.fire(
+                'Eliminado',
+                'El registro ha sido eliminado exitosamente',
+                'success'
+            )
+        </script>
+    @endif
+@endpush

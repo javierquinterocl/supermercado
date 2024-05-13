@@ -13,7 +13,7 @@
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="" aria-label="Search">
           <div class="input-group-append">
             <button class="btn btn-sidebar">
               <i class="fas fa-search fa-fw"></i>
@@ -48,7 +48,7 @@
           </li>
          
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link" style="color: black;">
             <i class="fa-solid fa-dollar-sign nav-icon" ></i>
               <p>
                 Ventas
@@ -58,7 +58,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <a href="{{ route('products.index') }}" class="nav-link">
+              <a href="{{ route('products.index') }}" class="nav-link" style="color: black;">
                 <i class="fa-solid fa-cart-plus nav-icon"></i>
                   <p>Producto</p>
                 </a>
@@ -78,8 +78,8 @@
              
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item" >
+            <a href="#" class="nav-link" style="color: black;">
             <i class="fa-solid fa-wallet nav-icon"></i>
               <p>
                 Compras
@@ -110,7 +110,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link" style="color: black;">
             <i class="fa-solid fa-bag-shopping nav-icon"></i>
               <p>
                 Inventarios

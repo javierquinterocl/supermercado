@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             
             $table->string('name');
-            $table->text('description');
-            $table->double('amount');
-            $table->double('price',8,2);
             $table->string('image')->nullable();
+            $table->string('description');
+            $table->string('registered_by')->nullable();
             $table->string('status')->nullable();
-            $table->string('registerby')->nullable();
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->decimal('price', 8, 2);
+            $table->integer('quantity')->default(0);
+            
+
+            
             
             
             $table->unsignedBigInteger('provider_id')->nullable();

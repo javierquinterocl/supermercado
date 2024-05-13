@@ -20,7 +20,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->colorName,
             'price' => $this->faker->randomFloat(2, 0, 1000),
             'description' => $this->faker->text,
-            'provider_id' => \App\Models\Provider::factory(),
+            
         ];
     }
 }

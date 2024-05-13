@@ -16,8 +16,8 @@ class OrderDetail extends Model
         'subtotal',
         'registered_by',
         'product_id',
+        'order_id',
     ];
-
     protected $guarded = ['id'];
 
     public function product()
