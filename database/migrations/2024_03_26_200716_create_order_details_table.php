@@ -15,7 +15,7 @@ return new class extends Migration {
 
             $table->integer('quantity');
             $table->integer('subtotal');
-            $table->string('registerby')->nullable();
+            $table->string('registered_by')->nullable();
 
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')

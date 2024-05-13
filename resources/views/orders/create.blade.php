@@ -49,10 +49,10 @@
 
                                     <div class="row" data-details-field=true>
                                         <select class="form-control" name="product_id[]">
-                                            <option value="-1">Please select a product</option>
+                                            <option value="1">Please select a product</option>
                                             @foreach ($products as $product)
                                                 <option value="{{ $product->id }}">{{ $product->name }}
-                                                    (${{ $product->price }})
+                                                    ({{ $product->price }})
                                                 </option>
                                             @endforeach
                                         </select>

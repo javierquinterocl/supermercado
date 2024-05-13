@@ -20,7 +20,7 @@
                         @foreach ($details as $detail)
                             <tr>
                                 <th>{{ $detail->product_id }}</th>
-                                <th> Conseguir precio </th>
+                                <th> Conseguir Precio  </th>
                                 <th> {{ $detail->quantity }} </th>
                                 <th>${{ $detail->subtotal }}</th>
                             </tr>
