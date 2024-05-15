@@ -37,4 +37,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('providers', ProviderController::class);
     Route::get('changeproducturl', [ProductController::class, 'changeproducturl'])->name('changeproducturl');
     Route::get('changeclienturl', [ClientController::class, 'changeclienturl'])->name('changeclienturl');
+    Route::get("changeorderurl", [OrderController::class, "changeorderurl"])->name("changeorderurl");
 });
