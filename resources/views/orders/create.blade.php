@@ -26,9 +26,9 @@
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Client<strong
                                                         style="color:red;">(*)</strong></label>
-                                                <select type="text" class="form-control" name="client"
+                                                <select type="text" class="form-control select2 mb-8 lh-base" name="client"
                                                     value="{{ old('client') }}">
-                                                    <option value="-1">Enter the client</option>
+                                                    <option value="-1" class="lh-base">Enter the client</option>
                                                     @foreach ($clients as $client)
                                                         <option value="{{ $client->id }}">{{ $client->name }}
                                                             ({{ $client->document }})
@@ -39,8 +39,17 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-12">
+                                    
+
+                                    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+      <th scope="col">Subtotal</th>
+      <th scope="col">
+      <div class="col-6">
                                             <input type="hidden" class="form-control" name="status" value="1">
                                             <input type="hidden" class="form-control" name="registered_by"
                                                 value="{{ Auth::user()->id }}">
@@ -49,22 +58,36 @@
                                                 Add product
                                             </span>
                                         </div>
-                                    </div>
-
-                                    <div class="row mt-2" data-details-field=true>
-                                        <div class="col-12">
-                                            <select class="form-control" name="product_id[]">
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"> <select class=" select2 mb-12"  name="product_id[]">
                                                 <option value="-1">Please select a product</option>
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}">{{ $product->name }}
                                                         (${{ $product->price }})
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select></th>
+    <th style="width:50%"><input type="number" class="form-control" name="quantity[]" value="1"> </th>
+     
+  </tbody>
+</table>
 
-                                            <input type="number" class="form-control" name="quantity[]" value="1">
+
+                                    
+
+                                    <div class="row mt-2" data-details-field=true>
+                                        <div class="col-12">
+                                           
+
+                                            
                                         </div>
                                     </div>
+
+                                    
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
@@ -85,8 +108,11 @@
             </div>
         </section>
     </div>
-
-    <script>
+     
+    
+@endsection
+@push('scripts')
+<script>
         fields = document.querySelector("#form-fields")
         addButton = document.querySelector("#add-field-button")
 
@@ -98,5 +124,15 @@
         function createRowWithFields() {
             return document.querySelector("[data-details-field=true]").cloneNode(true);
         }
+
+       ;
     </script>
-@endsection
+
+<script>
+ $(document).ready(function() {
+    $('.select2').select2();
+   
+})
+
+</script>
+@endpush

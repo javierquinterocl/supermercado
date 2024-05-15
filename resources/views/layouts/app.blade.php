@@ -39,8 +39,8 @@
     <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/dist/css/select2.css') }}">
-    <!-- Select2 -->
-    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
+    
+   
 
 
     <link rel="stylesheet" href="{{ asset('backend/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
@@ -80,6 +80,9 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
+
+<!-- Select2 -->
+<script src="{{ asset('backend/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- ChartJS -->
