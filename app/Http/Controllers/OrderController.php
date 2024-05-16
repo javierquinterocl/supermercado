@@ -29,7 +29,6 @@ class OrderController extends Controller
      */
     public function create()
     {
-        
         $clients = Client::all();
         $products = Product::all();
         return view('orders.create', compact('clients', "products"));
@@ -40,10 +39,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
         $order = Order::create([
             'date_order' => Carbon::now()->toDateTimeString(),
-            'total' => 0,
+            'total' => $request->total,
             'route' => "Por hacer",
             'client_id' => Client::find($request->client)->id,
         ]);

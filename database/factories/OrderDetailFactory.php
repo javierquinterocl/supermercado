@@ -17,10 +17,12 @@ class OrderDetailFactory extends Factory
     public function definition(): array
     {
         return [
-            'subtotal' => $this->faker->numberBetween(1,10000),
-            'quantity'=>$this->faker->numberBetween(1,10),
-            'product_id'=>\App\Models\Product::factory(),
-            'order_id'=>\App\Models\Order::factory(),
+            'date_order' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'total' => $this->faker->randomFloat(2, 100, 1000),
+            'route' => $this->faker->address,
+            'status' => $this->faker->randomElement(['pending', 'completed', 'shipped']),
+            'registered_by' => $this->faker->name,
+            'client_id' =>  \App\Models\Client::factory(),
         ];
     }
 }
