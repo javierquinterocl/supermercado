@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\Client;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,14 +18,19 @@ class ClientFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'document' => $this->faker->unique()->randomNumber(8),
-            'photo' => $this->faker->imageUrl(200, 200, 'people'), 
+            'photo' => randomPhoto(),
+            'document' => $this->faker->numberBetween(1234567890, 2134567890),
             'address' => $this->faker->address,
             'city' => $this->faker->city,
             'phone' => $this->faker->phoneNumber,
-            'email' => $this->faker->unique()->safeEmail,
-            'status' => $this->faker->randomElement(['active', 'inactive']),
-            'registered_by' => $this->faker->name,
+            'email' => $this->faker->email,
+            'registered_by' => \App\Models\User::factory(),
+            'status' => "1",
         ];
     }
+}
+
+function randomPhoto(): string
+{
+    return "dummyPhoto/" . rand(1, 5) . ".jpg";
 }

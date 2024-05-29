@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -31,8 +32,10 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
+        $client = new Client();
+
         $image = $request->file('photo');
         $slug = str::slug($request->name);
 
@@ -44,21 +47,19 @@ class ClientController extends Controller
                 mkdir('uploads/clients', 0777, true);
             }
             $image->move('uploads/clients', $photoName);
-        } else {
-            $photoName = "";
+
+            $client->photo = $photoName;
         }
 
-        $product = new Client();
-        $product->name = $request->name;
-        $product->document = $request->document;
-        $product->photo = $photoName;
-        $product->address = $request->address;
-        $product->city = $request->city;
-        $product->phone = $request->phone;
-        $product->email = $request->email;
-        $product->status = 1;
-        $product->registered_by = $request->user()->id;
-        $product->save();
+        $client->name = $request->name;
+        $client->document = $request->document;
+        $client->address = $request->address;
+        $client->city = $request->city;
+        $client->phone = $request->phone;
+        $client->email = $request->email;
+        $client->status = 1;
+        $client->registered_by = $request->user()->id;
+        $client->save();
 
         return redirect()->route("clients.index")->with("success", "Client successfully added.");
     }
@@ -83,7 +84,7 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClientRequest $request, string $id)
     {
         $client = Client::find($id);
 
@@ -98,13 +99,12 @@ class ClientController extends Controller
                 mkdir('uploads/clients', 0777, true);
             }
             $image->move('uploads/clients', $photoName);
-        } else {
-            $photoName = "";
+
+            $client->photo = $photoName;
         }
 
         $client->name = $request->name;
         $client->document = $request->document;
-        $client->photo = $photoName;
         $client->address = $request->address;
         $client->city = $request->city;
         $client->phone = $request->phone;

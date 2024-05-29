@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
+
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
+use \Exception;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -16,10 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::select('clients.name', 'clients.document', 'orders.id', 'orders.total', 'orders.date_order', 'orders.status')
-            ->join('clients', 'orders.client_id', '=', 'clients.id')
-            ->get();
-
+        $orders = Order::all();
 
         return view('orders.index', compact('orders'));
     }
@@ -37,40 +41,60 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        $order = Order::create([
-            'date_order' => Carbon::now()->toDateTimeString(),
-            'total' => $request->total,
-            'route' => "Por hacer",
-            'client_id' => Client::find($request->client)->id,
-        ]);
+        DB::beginTransaction();
 
-        $order->status = 1;
-        $order->registered_by = $request->registered_by;
-
-        $total = 0;
-
-        $rawProductId = $request->product_id;
-        $rawQuantity = $request->quantity;
-        for ($i = 0; $i < count($rawProductId); $i++) {
-            $product = Product::find($rawProductId[$i]);
-            $quantity = $rawQuantity[$i];
-            $subtotal = $product->price * $quantity;
-
-            $order->order_details()->create([
-                'quantity' => $quantity,
-                'subtotal' => $subtotal,
-                'product_id' => $product->id,
+        try {
+            $order = Order::create([
+                'date_order' => Carbon::now()->toDateTimeString(),
+                'total' => $request->total,
+                'route' => "Por hacer",
+                'client_id' => Client::find($request->client)->id,
+                'status' => 1,
+                'registered_by' => $request->registered_by
             ]);
 
-            $total += $subtotal;
+            $rawProductId = $request->product_id;
+            $rawQuantity = $request->quantity;
+
+            for ($i = 0; $i < count($rawProductId); $i++) {
+                $product = Product::find($rawProductId[$i]);
+                $quantity = $rawQuantity[$i];
+
+                $order->orderDetails()->create([
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                ]);
+            }
+
+            $order->save();
+
+            // Generate bill (PDF).
+            $pdfName = 'uploads/bills/bill_' . $order->id . '_' . Carbon::now()->format('YmdHis') . '.pdf';
+
+            $order = Order::find($order->id);
+            $client = Client::where("id", $order->client_id)->first();
+            $details = OrderDetail::with('product')
+                ->where('order_details.order_id', '=', $order->id)
+                ->get();
+
+            $pdf = PDF::loadView('orders.bill', compact("order", "client", "details"))
+                ->setPaper('letter')
+                ->output();
+
+            file_put_contents($pdfName, $pdf);
+
+            $order->route = $pdfName;
+            $order->save();
+
+            DB::commit();
+
+            return redirect()->route("orders.index")->with("success", "The orders has been created.");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with("success", $e->getMessage());
         }
-
-        $order->total = $total;
-        $order->save();
-
-        return redirect()->route("orders.index")->with("success", "The orders has been created.");
     }
 
     /**

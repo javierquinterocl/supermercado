@@ -20,13 +20,14 @@ class OrderFactory extends Factory
     {
         $product = \App\Models\Product::factory()->create();
         return [
-            'quantity' => $this->faker->numberBetween(1, 10),
-            'subtotal' => $this->faker->randomFloat(2, 10, 1000),
-            'registered_by' => $this->faker->name,
-            'product_id' =>  \App\Models\Product::factory(),
-            'order_id' => function () {
-                return Order::factory()->create()->id;
-            },
+            'date_order' => $this->faker->unique()->dateTime(),
+            'total' => $this->faker->randomFloat(0, 10000, 500000),
+            'route' => $this->faker->colorName(),
+
+            'registered_by' => \App\Models\User::factory(),
+            'status' => "1",
+
+            'client_id' => \App\Models\Client::factory(),
         ];
     }
 }

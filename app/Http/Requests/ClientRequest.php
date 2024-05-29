@@ -21,48 +21,24 @@ class ClientRequest extends FormRequest
      */
     public function rules(): array
     {
-        if(request()->isMethod('post')){
+        if (request()->isMethod('POST')) {
             return [
-                
-                'name' => 'required|string|max:255|unique:clients,name',
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
                 'document' => 'nullable',
-                'email' => 'nullable',
-                'phone' => 'nullable',
                 'address' => 'nullable',
-                'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
-                
-            ];	
-        } else if(request()->isMethod('put')){
-            return [
-                
-                'name' => 'required|string|max:255',
-                'document' => 'nullable',
-                'email' => 'nullable',
-                'phone' => 'nullable',
-                'address' => 'nullable',
-                'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
+                'email' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:6000',
             ];
-        }else{
+        } elseif (request()->isMethod('put')) {
+            return [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'document' => 'nullable',
+                'address' => 'nullable',
+                'email' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:6000',
+            ];
 
-            return[
-                'name' => 'required|string|max:255',
-                'document' => 'nullable',
-                'email' => 'nullable',
-                'phone' => 'nullable',
-                'address' => 'nullable',
-                'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
-            ];
         }
+
     }
-    public function attributes()
-    {
-        return [
-			'client_id' => 'cliente',
-			
-			'image' => 'fotografía',
-			
-			
-        ];
-    }
-    
 }

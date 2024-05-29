@@ -21,53 +21,28 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        
-            if(request()->isMethod('post')){
-                return [
-                    
-                    'name' => 'required|string|max:255|unique:products,name',
-                    'description' => 'nullable',
-                    'amount' => 'required|numeric',
-                    'price' => 'required|min:0',
-                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
-                    
-                ];	
-            } else if(request()->isMethod('put')){
-                return [
-                    
-                    'name' => 'required|string|max:255',
-                    'description' => 'nullable',
-                    'document' => 'nullable',
-                    'amount' => 'required|numeric',
-                    'price' => 'required|min:0',
-                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
-                ];
-            }else{
+        if (request()->isMethod('POST')) {
+            return [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'description' => 'nullable',
+                'price' => 'nullable',
+                'quantity' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:6000',
+                'status' => 'nullable',
+                'registered_by' => 'nullable',
+            ];
+        } elseif (request()->isMethod('put')) {
+            return [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'description' => 'nullable',
+                'price' => 'nullable',
+                'quantity' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:6000',
+                'status' => 'nullable',
+                'registered_by' => 'nullable',
+            ];
 
-                return[
-                    'name' => 'required|string|max:255',
-                    'description' => 'nullable',
-                    'amount' => 'required|numeric',
-                    'price' => 'required|min:0',
-                    'image' => 'nullable|mimes:jpg,jpeg,png|max:3000',
-                ];
-            }
-           
-            
+        }
 
-
-       
-
-        
-    }
-    public function attributes()
-    {
-        return [
-			'product_id' => 'producto',
-			
-			'image' => 'fotografía',
-			
-			
-        ];
     }
 }
