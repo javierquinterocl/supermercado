@@ -5108,7 +5108,7 @@ input[type="button"].btn-block {
   margin-left: -1px;
   line-height: 1.25;
   color: #007bff;
-  background-color: #fff;
+  background-color: #ff9900;
   border: 1px solid #dee2e6;
 }
 
@@ -5116,7 +5116,7 @@ input[type="button"].btn-block {
   z-index: 2;
   color: #0056b3;
   text-decoration: none;
-  background-color: #e9ecef;
+  background-color: #ff9900;
   border-color: #dee2e6;
 }
 
@@ -5140,7 +5140,7 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #007bff;
+  background-color: #ff9900 ;
   border-color: #007bff;
 }
 
