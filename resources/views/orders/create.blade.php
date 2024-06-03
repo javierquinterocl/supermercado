@@ -111,7 +111,7 @@
                                                 class="btn btn-primary btn-block btn-flat">Register</button>
                                         </div>
                                         <div class="col-4">
-                                            <a href="{{ route('clients.index') }}"
+                                            <a href="{{ route('orders.index') }}"
                                                 class="btn btn-danger btn-block btn-flat">Back</a>
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@
                 currentOrder.id = parseInt(productSelect.find(':selected').val())
                 currentOrder.name = productSelect.find(':selected').data('name')
                 currentOrder.price = parseInt(productSelect.find(':selected').data('price'))
-                currentOrder.quantity = 0
+                currentOrder.quantity = 1
 
                 updateCurrentOrder()
             });

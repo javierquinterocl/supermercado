@@ -41,34 +41,40 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OrderRequest $request)
+    public function store(Request $request)
     {
-        DB::beginTransaction();
+        $order = Order::create([
+            'date_order' => Carbon::now()->toDateTimeString(),
+            'total' => $request->total,
+            'route' => "Por hacer",
+            'client_id' => Client::find($request->client)->id,
+        ]);
 
-        try {
-            $order = Order::create([
-                'date_order' => Carbon::now()->toDateTimeString(),
-                'total' => $request->total,
-                'route' => "Por hacer",
-                'client_id' => Client::find($request->client)->id,
-                'status' => 1,
-                'registered_by' => $request->registered_by
-            ]);
+        $order->status = 0;
+        $order->registered_by = $request->registered_by;
 
-            $rawProductId = $request->product_id;
-            $rawQuantity = $request->quantity;
+        $total = 0;
 
-            for ($i = 0; $i < count($rawProductId); $i++) {
-                $product = Product::find($rawProductId[$i]);
-                $quantity = $rawQuantity[$i];
+        $rawProductId = $request->product_id;
+        $rawQuantity = $request->quantity;
+        for ($i = 0; $i < count($rawProductId); $i++) {
+            $product = Product::find($rawProductId[$i]);
+            $quantity = $rawQuantity[$i];
+            $subtotal = $product->price * $quantity;
 
-                $order->orderDetails()->create([
+            $order->orderDetails()->create([
+                'quantity' => $quantity,
+                'subtotal' => $subtotal,
                     'product_id' => $product->id,
-                    'quantity' => $quantity,
                 ]);
-            }
 
-            $order->save();
+                $total += $subtotal;
+            }
+            $order->total = $total;
+           
+            
+            
+            
 
             // Generate bill (PDF).
             $pdfName = 'uploads/bills/bill_' . $order->id . '_' . Carbon::now()->format('YmdHis') . '.pdf';
@@ -88,14 +94,11 @@ class OrderController extends Controller
             $order->route = $pdfName;
             $order->save();
 
-            DB::commit();
 
             return redirect()->route("orders.index")->with("success", "The orders has been created.");
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with("success", $e->getMessage());
-        }
-    }
+        
+    
+}
 
     /**
      * Display the specified resource.
