@@ -48,9 +48,11 @@ class OrderController extends Controller
             'total' => $request->total,
             'route' => "Por hacer",
             'client_id' => Client::find($request->client)->id,
+            'status' => 1,  // Estado activo
+            'registered_by' => $request->registered_by,
         ]);
 
-        $order->status = 0;
+        $order->status = 1;
         $order->registered_by = $request->registered_by;
 
         $total = 0;
